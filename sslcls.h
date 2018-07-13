@@ -22,6 +22,10 @@ const SSL_METHOD *sycTLSv1_1_client_method(void);
 const SSL_METHOD *sycTLSv1_1_server_method(void);
 const SSL_METHOD *sycTLSv1_2_client_method(void);
 const SSL_METHOD *sycTLSv1_2_server_method(void);
+#if (OPENSSL_VERSION_NUMBER >= 10100000L)
+const SSL_METHOD *sycTLS_client_method(void);
+const SSL_METHOD *sycTLS_server_method(void);
+#endif
 const SSL_METHOD *sycDTLSv1_client_method(void);
 const SSL_METHOD *sycDTLSv1_server_method(void);
 SSL_CTX *sycSSL_CTX_new(const SSL_METHOD *method);
@@ -81,6 +85,10 @@ const char *sycSSL_COMP_get_name(const COMP_METHOD *comp);
 #define sycTLSv1_1_server_method() TLSv1_1_server_method()
 #define sycTLSv1_2_client_method() TLSv1_2_client_method()
 #define sycTLSv1_2_server_method() TLSv1_2_server_method()
+#if (OPENSSL_VERSION_NUMBER >= 10100000L)
+#define sycTLS_client_method() TLS_client_method()
+#define sycTLS_server_method() TLS_server_method()
+#endif
 #define sycDTLSv1_client_method() DTLSv1_client_method()
 #define sycDTLSv1_server_method() DTLSv1_server_method()
 #define sycSSL_CTX_new(m) SSL_CTX_new(m)
