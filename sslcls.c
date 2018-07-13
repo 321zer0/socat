@@ -147,6 +147,26 @@ const SSL_METHOD *sycTLSv1_2_server_method(void) {
 }
 #endif
 
+#if (OPENSSL_VERSION_NUMBER >= 10100000L)
+const SSL_METHOD *sycTLS_client_method(void) {
+   const SSL_METHOD *result;
+   Debug("TLS_client_method()");
+   result = TLS_client_method();
+   Debug1("TLS_client_method() -> %p", result);
+   return result;
+}
+#endif
+
+#if (OPENSSL_VERSION_NUMBER >= 10100000L)
+const SSL_METHOD *sycTLS_server_method(void) {
+   const SSL_METHOD *result;
+   Debug("TLS_server_method()");
+   result = TLS_server_method();
+   Debug1("TLS_server_method() -> %p", result);
+   return result;
+}
+#endif
+
 #if HAVE_DTLSv1_client_method
 const SSL_METHOD *sycDTLSv1_client_method(void) {
    const SSL_METHOD *result;
