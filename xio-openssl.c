@@ -798,6 +798,12 @@ int
 	 } else if (!strcasecmp(me_str, "TLS1.2")) {
 	    method = sycTLSv1_2_client_method();
 #endif
+#if (OPENSSL_VERSION_NUMBER >= 10101000L)
+	 } else if (!strcasecmp(me_str, "TLS1.3")) {
+	    method = sycTLS_client_method();
+	    SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
+	    SSL_CTX_set_max_proto_version(ctx, TLS1_3_VERSION);
+#endif
 #if HAVE_DTLSv1_client_method
 	 } else if (!strcasecmp(me_str, "DTLS") || !strcasecmp(me_str, "DTLS1")) {
 	    method = sycDTLSv1_client_method();
@@ -850,6 +856,12 @@ int
 #if HAVE_TLSv1_2_server_method
 	 } else if (!strcasecmp(me_str, "TLS1.2")) {
 	    method = sycTLSv1_2_server_method();
+#endif
+#if (OPENSSL_VERSION_NUMBER >= 10101000L)
+	 } else if (!strcasecmp(me_str, "TLS1.3")) {
+	    method = sycTLS_server_method();
+	    SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);
+	    SSL_CTX_set_max_proto_version(ctx, TLS1_3_VERSION);
 #endif
 #if HAVE_DTLSv1_server_method
 	 } else if (!strcasecmp(me_str, "DTLS") || !strcasecmp(me_str, "DTLS1")) {
@@ -913,6 +925,13 @@ int
 
       /*ERR_clear_error;*/
       return STAT_RETRYLATER;
+   }
+   else
+   {
+      if (!strcasecmp(me_str, "TLS1.3"))
+      {
+            SSL_CTX_set_options(*ctx, SSL_OP_NO_TLSv1 | SSL_OP_NO_TLSv1_1 | SSL_OP_NO_TLSv1_2);
+      }
    }
 
    {
